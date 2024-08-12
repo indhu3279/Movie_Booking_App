@@ -17,6 +17,15 @@ public class Booking {
     private Date createdOn;
     private String bookingStatus;
     private int showId;
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getBookingNumber() {
         return bookingNumber;

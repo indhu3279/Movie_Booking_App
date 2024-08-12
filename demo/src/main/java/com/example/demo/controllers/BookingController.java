@@ -29,9 +29,10 @@ public class BookingController {
         logger.info("Received booking request for email: {}", emailId);
         Booking booking = new Booking();
         booking.setShowId(bookingRequest.getSeatslist().get(0).getShowId());
+        booking.setUsername(bookingRequest.getUsername());
         booking.setBookingNumber(generateBookingNumber());
         try {
-            bookingService.createBooking(seatIds, emailId,booking);
+            bookingService.createBooking(seatIds, emailId, booking);
             Map<String, String> response = new HashMap<>();
 
             response.put("message", "Booking successful");
@@ -40,6 +41,11 @@ public class BookingController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
         }
+    }
+
+    @GetMapping("/{username}")
+    public List<Booking> getBookingByUsername(@PathVariable String username){
+        return bookingService.getByUsername(username);
     }
 
     private String generateBookingNumber() {

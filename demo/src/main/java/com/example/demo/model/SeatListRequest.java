@@ -5,6 +5,15 @@ import java.util.List;
 public class SeatListRequest {
     private List<Seat> seatslist;
     private String emailId;
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getEmailId() {
         return emailId;

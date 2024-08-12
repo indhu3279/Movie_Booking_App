@@ -25,6 +25,10 @@ public class BookingService {
     @Autowired
     EmailService emailService = new EmailService();
 
+    public List<Booking> getByUsername(String username){
+        return bookingRepository.findByUsername(username);
+    }
+
     @Transactional
     public void createBooking(List<Long> seatIds, String emailId,Booking bookingRequest){
          logger.info("Received booking request for email: {}", emailId);
@@ -34,7 +38,6 @@ public class BookingService {
         try {
             List<Seat> seatsToBook = seatRepository.findAllBySeatIdIn(seatIds);
 
-//             Check if any seat is already booked
             for (Seat seat : seatsToBook) {
                 if (seat.getIsReserved()) {
                     throw new RuntimeException("One or more seats are already booked-1");
@@ -52,6 +55,7 @@ public class BookingService {
             bookingRequest.setCreatedOn(new Date());
             bookingRequest.setBookingStatus("CONFIRMED");
             bookingRequest.setNumberOfSeats(seatsToBook.size());
+            bookingRequest.setUsername(bookingRequest.getUsername());
             bookingRepository.save(bookingRequest);
             emailService.sendBookingConfirmation(emailId, "Your booking request is successful");
 
